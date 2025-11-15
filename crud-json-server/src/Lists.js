@@ -1,4 +1,6 @@
 import React from "react";
+import UpdateList from "./UpdateList";
+import DeleteList from "./DeleteList";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 function Lists(props) {
@@ -11,10 +13,21 @@ function Lists(props) {
         <td>{element.title}</td>
         <td>{element.author}</td>
         <td>
-          <button className="btn btn-warning btn-sm">Update</button>
+          <UpdateList
+            elementId={element.id}
+            singledata={props.singledata}
+            getList={props.getList}
+            updateList={props.updateList}
+            handleChange={props.handleChange}
+          />
         </td>
         <td>
-          <button className="btn btn-danger btn-sm">Delete</button>
+          <DeleteList
+            elementId={element.id}
+            singledata={props.singledata}
+            getList={props.getList}
+            deleteList={props.deleteList}
+          />
         </td>
       </tr>
     );
