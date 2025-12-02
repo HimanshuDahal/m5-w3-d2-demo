@@ -10,7 +10,7 @@ class App extends React.Component {
       loading: false,
       alldata: [],
       singledata: {
-        id: "",
+        _id: "",
         title: "",
         author: "",
       },
@@ -20,7 +20,7 @@ class App extends React.Component {
   // READ
   getLists = () => {
     this.setState({ loading: true });
-    fetch("http://localhost:5000/posts")
+    fetch("http://localhost:5000/books")
       .then((res) => res.json())
       .then((result) =>
         this.setState({
@@ -49,13 +49,13 @@ class App extends React.Component {
 
   // CREATE
   createList = () => {
-    fetch("http://localhost:5000/posts", {
+    fetch("http://localhost:5000/books", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state.singledata),
     }).then(() => {
       this.setState({
-        singledata: { id: "", title: "", author: "" },
+        singledata: { _id: "", title: "", author: "" },
       });
       this.getLists();
     });
@@ -68,11 +68,12 @@ class App extends React.Component {
         singledata: { title: "Loading...", author: "Loading..." },
       },
       () => {
-        fetch("http://localhost:5000/posts/" + id)
+        fetch("http://localhost:5000/books/" + id)
           .then((res) => res.json())
           .then((result) => {
             this.setState({
               singledata: {
+                _id: result._id,
                 title: result.title,
                 author: result.author || "",
               },
@@ -84,26 +85,26 @@ class App extends React.Component {
 
   // UPDATE
   updateList = (event, id) => {
-    fetch("http://localhost:5000/posts/" + id, {
+    fetch("http://localhost:5000/books/" + id, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(this.state.singledata),
     })
       .then((res) => res.json())
       .then(() => {
-        this.setState({ singledata: { title: "", author: "" } });
+        this.setState({ singledata: { _id: "", title: "", author: "" } });
         this.getLists();
       });
   };
 
   // DELETE
   deleteList = (event, id) => {
-    fetch("http://localhost:5000/posts/" + id, {
+    fetch("http://localhost:5000/books/" + id, {
       method: "DELETE",
     })
       .then((res) => res.json())
       .then(() => {
-        this.setState({ singledata: { title: "", author: "" } });
+        this.setState({ singledata: { _id: "", title: "", author: "" } });
         this.getLists();
       });
   };
